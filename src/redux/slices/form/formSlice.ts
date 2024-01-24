@@ -25,7 +25,7 @@ export const initialState: InitialState = {
     street: "",
     pincode: "",
     mobile: "",
-    age: null,
+    age: 0,
     id: "",
     idType: "",
     country: "",

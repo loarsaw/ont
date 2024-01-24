@@ -35,19 +35,10 @@ interface IFormPersonalData {
 const PersonalDetails = () => {
   const { formData } = useAppSelector((state: RootState) => state.form);
   const { index } = useAppSelector((state: RootState) => state.step);
-  useEffect(() => {
-    console.log(formData);
-  }, [formData.name]);
   const dispatch = useAppDispatch();
   const personalSchema = yup.object({
     name: yup.string().required(),
-    age: yup
-      .number()
-      .positive()
-      .integer()
-      .min(1)
-      .max(100)
-      .required("Age must be a number"),
+    age: yup.number().positive().integer().max(100).min(1).required(),
     mobile: yup
       .string()
       .required("Mobile number is required")
