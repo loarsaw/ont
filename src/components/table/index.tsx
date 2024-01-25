@@ -26,7 +26,7 @@ const DataTable = () => {
     return () => {
       dt.destroy();
     };
-  }, []);
+  }, [dataArray]);
 
   console.log(dataArray);
   return <table ref={tableRef}></table>;

@@ -65,12 +65,8 @@ const PersonalDetails = () => {
   const dispatch = useAppDispatch();
 
   function submit(data: any) {
-    dispatch(formActions.setFormData(data));
-    dispatch(stepActions.incrementIndex(1));
-  }
-
-  useEffect(() => {
     if (getValues().idType == "Adhaar") {
+      console.log("In Adhaar");
       const numericRegex = /^[2-9]\d{11}$/;
       const stringV = getValues().id ?? "";
       if (!numericRegex.test(stringV)) {
@@ -80,6 +76,8 @@ const PersonalDetails = () => {
         });
       } else {
         clearErrors("id");
+        dispatch(formActions.setFormData(data));
+        dispatch(stepActions.incrementIndex(1));
       }
     } else if (getValues().idType == "Pan") {
       const alphanumericRegex = /^[a-zA-Z0-9]{10}$/;
@@ -91,9 +89,11 @@ const PersonalDetails = () => {
         });
       } else {
         clearErrors("id");
+        dispatch(formActions.setFormData(data));
+        dispatch(stepActions.incrementIndex(1));
       }
     }
-  }, [getValues().idType, getValues().id]);
+  }
 
   return (
     <div className="">
