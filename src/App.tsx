@@ -9,6 +9,7 @@ import { FormLabel } from "@mui/material";
 import StepperForm from "./components/stepper";
 import { useAppSelector } from "./redux/store/storeHook";
 import { RootState } from "./redux/store/store";
+import DataTable from "./components/table";
 
 interface FormData {
   name: string;
@@ -20,8 +21,6 @@ interface FormData {
 }
 
 const MyForm: React.FC = () => {
-  const { dataArray } = useAppSelector((state: RootState) => state.data);
-  console.log(dataArray);
   return (
     <div className="flex items-center justify-center h-full flex-col">
       <div className="w-[70%]">
@@ -29,6 +28,7 @@ const MyForm: React.FC = () => {
       </div>
       <div>
         <h1>FormData goes Here</h1>
+        <DataTable />
       </div>
     </div>
     // <div className="flex items-center flex-col justify-center">

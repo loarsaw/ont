@@ -34,8 +34,6 @@ interface IFormPersonalData {
 }
 const PersonalDetails = () => {
   const { formData } = useAppSelector((state: RootState) => state.form);
-  const { index } = useAppSelector((state: RootState) => state.step);
-  const dispatch = useAppDispatch();
   const personalSchema = yup.object({
     name: yup.string().required(),
     age: yup.number().positive().integer().max(100).min(1).required(),
@@ -50,21 +48,52 @@ const PersonalDetails = () => {
     idType: yup.string().required(),
     id: yup.string().required(),
   });
-
   const {
     register,
     handleSubmit,
+    getValues,
+    setError,
+    watch,
+    clearErrors,
     formState: { errors },
   } = useForm({
     defaultValues: formData,
     // @ts-expect-error
     resolver: yupResolver(personalSchema),
   });
+  const { index } = useAppSelector((state: RootState) => state.step);
+  const dispatch = useAppDispatch();
 
   function submit(data: any) {
     dispatch(formActions.setFormData(data));
     dispatch(stepActions.incrementIndex(1));
   }
+
+  useEffect(() => {
+    if (getValues().idType == "Adhaar") {
+      const numericRegex = /^[2-9]\d{11}$/;
+      const stringV = getValues().id ?? "";
+      if (!numericRegex.test(stringV)) {
+        setError("id", {
+          type: "custom",
+          message: "Should be 12 Digit Number",
+        });
+      } else {
+        clearErrors("id");
+      }
+    } else if (getValues().idType == "Pan") {
+      const alphanumericRegex = /^[a-zA-Z0-9]{10}$/;
+      const stringV = getValues().id ?? "";
+      if (!alphanumericRegex.test(stringV)) {
+        setError("id", {
+          type: "custom",
+          message: "Should be 10 digit alpha numeric number",
+        });
+      } else {
+        clearErrors("id");
+      }
+    }
+  }, [getValues().idType, getValues().id]);
 
   return (
     <div className="">
@@ -125,7 +154,6 @@ const PersonalDetails = () => {
             >
               <MenuItem value="Adhaar">Adhaar</MenuItem>
               <MenuItem value="Pan">Pan</MenuItem>
-              <MenuItem value="Drivers License">Drivers License</MenuItem>
             </Select>
             {errors.idType && (
               <p className="text-sm text-red-800">{errors.idType.message}</p>

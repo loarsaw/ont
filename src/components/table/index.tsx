@@ -1,11 +1,35 @@
-import React from 'react'
+import { useEffect, useRef } from "react";
+import "datatables.net-dt/css/jquery.dataTables.css";
+import { useAppSelector } from "../../redux/store/storeHook";
+import { RootState } from "../../redux/store/store";
+import DataTables, { Config } from "datatables.net-dt";
 
-type Props = {}
+const DataTable = () => {
+  const tableRef = useRef<HTMLTableElement>(null);
+  const columns = [
+    { data: "name", title: "Name" },
+    { data: "country", title: "Country" },
+    { data: "mobile", title: "Mobile" },
+    { data: "sex", title: "Gender" },
+    { data: "id", title: "ID" },
+  ];
+  const { dataArray } = useAppSelector((state: RootState) => state.data);
+  const data = dataArray;
+  const values = {
+    columns,
+    data,
+  };
+  useEffect(() => {
+    const dt = new DataTables(tableRef.current!, {
+      ...values,
+    });
+    return () => {
+      dt.destroy();
+    };
+  }, []);
 
-const index = (props: Props) => {
-  return (
-    <div>index</div>
-  )
-}
+  console.log(dataArray);
+  return <table ref={tableRef}></table>;
+};
 
-export default index
+export default DataTable;
