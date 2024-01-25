@@ -15,11 +15,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { dataActions } from "../../redux/slices/data/dataSlice";
 import { formActions, initialState } from "../../redux/slices/form/formSlice";
 
-type Props = {
-  setHold: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const AddressDetails = ({ setHold }: Props) => {
+const AddressDetails = () => {
   const { formData } = useAppSelector((state: RootState) => state.form);
   const { index } = useAppSelector((state: RootState) => state.step);
   const { dataArray } = useAppSelector((state: RootState) => state.data);
