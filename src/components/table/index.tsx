@@ -28,8 +28,7 @@ const DataTable = () => {
     };
   }, [dataArray]);
 
-  console.log(dataArray);
-  return <table ref={tableRef}></table>;
+  return <table className="" ref={tableRef}></table>;
 };
 
 export default DataTable;
